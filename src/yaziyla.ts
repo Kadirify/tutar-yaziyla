@@ -1,7 +1,8 @@
 import { ayir, type GirdiSecenekleri, type SayiGirdisi } from './girdi';
 import { tamSayiKelimeleri } from './kelimeler';
+import { birlestir, type YazimSecenekleri } from './yazim';
 
-export type YaziSecenekleri = GirdiSecenekleri;
+export interface YaziSecenekleri extends GirdiSecenekleri, YazimSecenekleri {}
 
 /** Sayının kelimeleri. Ondalık kısım "virgül"den sonra okunuyor: 3,05 -> üç virgül sıfır beş */
 export function sayiKelimeleri(sayi: SayiGirdisi, s: GirdiSecenekleri = {}): string[] {
@@ -27,5 +28,5 @@ export function sayiKelimeleri(sayi: SayiGirdisi, s: GirdiSecenekleri = {}): str
  * yaziyla(-40)       // 'eksi kırk'
  */
 export function yaziyla(sayi: SayiGirdisi, secenekler: YaziSecenekleri = {}): string {
-  return sayiKelimeleri(sayi, secenekler).join(' ');
+  return birlestir(sayiKelimeleri(sayi, secenekler), secenekler, 'kucuk');
 }

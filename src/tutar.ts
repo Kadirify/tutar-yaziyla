@@ -1,9 +1,9 @@
 import { ayir, type GirdiSecenekleri, type SayiGirdisi } from './girdi';
 import { tamSayiKelimeleri } from './kelimeler';
 import { paraBul, type ParaBirimi, type ParaKodu } from './paralar';
-import { birlestir } from './yazim';
+import { birlestir, dirEki, type YazimSecenekleri } from './yazim';
 
-export interface TutarSecenekleri extends GirdiSecenekleri {
+export interface TutarSecenekleri extends GirdiSecenekleri, YazimSecenekleri {
   /** 'TRY' (varsayılan), 'USD', 'EUR', 'GBP', 'CHF', 'JPY' ya da kendi tanımınız. */
   para?: ParaKodu | Lowercase<ParaKodu> | ParaBirimi;
   /**
@@ -15,6 +15,8 @@ export interface TutarSecenekleri extends GirdiSecenekleri {
   sifirKurus?: boolean;
   /** Lira sıfırsa da yaz: "Sıfır Türk Lirası Elli Kuruş" */
   sifirLira?: boolean;
+  /** Faturadaki kalıp: "Yalnız Bin Türk Lirasıdır" */
+  yalniz?: boolean;
 }
 
 export interface TutarParcalari {
@@ -74,5 +76,10 @@ export function tutarKelimeleri(tutar: SayiGirdisi, s: TutarSecenekleri = {}): s
  * tutarYaziyla(99.9, { para: 'USD' })  // 'Doksan Dokuz ABD Doları Doksan Sent'
  */
 export function tutarYaziyla(tutar: SayiGirdisi, secenekler: TutarSecenekleri = {}): string {
-  return birlestir(tutarKelimeleri(tutar, secenekler), {}, 'baslik');
+  const k = tutarKelimeleri(tutar, secenekler);
+  if (secenekler.yalniz) {
+    k.unshift('yalnız');
+    k[k.length - 1] = dirEki(k[k.length - 1]!);
+  }
+  return birlestir(k, secenekler, 'baslik');
 }

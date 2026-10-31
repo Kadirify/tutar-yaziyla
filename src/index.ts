@@ -5,4 +5,5 @@ export type { TutarParcalari, TutarSecenekleri } from './tutar';
 export { PARALAR } from './paralar';
 export type { ParaBirimi, ParaKodu } from './paralar';
 export type { GirdiSecenekleri, SayiGirdisi } from './girdi';
+export type { Harf, YazimSecenekleri } from './yazim';
 export { SINIR } from './kelimeler';

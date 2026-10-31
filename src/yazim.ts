@@ -18,9 +18,30 @@ function ilkHarfBuyuk(s: string): string {
 }
 
 export interface YazimSecenekleri {
+  /** 'baslik': Bin İki Yüz, 'kucuk': bin iki yüz, 'buyuk': BİN İKİ YÜZ, 'cumle': Bin iki yüz */
   harf?: Harf;
-  /** Kelimeleri boşluksuz yaz. Çek ve senette araya bir şey eklenmesin diye böyle yazılıyor. */
+  /** Kelimeleri boşluksuz yaz: BinİkiYüzElli. Çek ve senette araya kelime eklenemesin diye. */
   bitisik?: boolean;
+  /** Başa ve sona konacak işaret, örneğin '#' ya da '***'. */
+  cerceve?: string;
+}
+
+const KALIN = 'aıou';
+const INCE = 'eiöü';
+const SERT = 'fstkçşhp';
+
+/**
+ * Ek fiil "-dır" eki: Kuruş -> Kuruştur, Lirası -> Lirasıdır, Avro -> Avrodur.
+ * Faturadaki "Yalnız ... Kuruştur." kalıbı için.
+ */
+export function dirEki(kelime: string): string {
+  const kucuk = kucukHarf(kelime);
+  const unluler = [...kucuk].filter((h) => KALIN.includes(h) || INCE.includes(h));
+  const son = unluler[unluler.length - 1] ?? 'a';
+  const unlu = { a: 'ı', ı: 'ı', o: 'u', u: 'u', e: 'i', i: 'i', ö: 'ü', ü: 'ü' }[son] ?? 'ı';
+  const sonHarf = kucuk[kucuk.length - 1] ?? '';
+  const d = SERT.includes(sonHarf) ? 't' : 'd';
+  return kelime + d + unlu + 'r';
 }
 
 export function birlestir(kelimeler: readonly string[], s: YazimSecenekleri, varsayilanHarf: Harf): string {
@@ -35,5 +56,6 @@ export function birlestir(kelimeler: readonly string[], s: YazimSecenekleri, var
     if (harf === 'cumle' && i === 0) return ilkHarfBuyuk(kucuk);
     return kucuk;
   });
-  return duzenli.join(s.bitisik ? '' : ' ');
+  const metin = duzenli.join(s.bitisik ? '' : ' ');
+  return s.cerceve ? s.cerceve + metin + s.cerceve : metin;
 }
