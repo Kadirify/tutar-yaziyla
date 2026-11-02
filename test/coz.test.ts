@@ -73,7 +73,53 @@ describe('yazidanTutar', () => {
 
   it('kuralsız tutarı reddediyor', () => {
     expect(() => yazidanTutar('bin lira beş lira')).toThrow(TypeError);
+    expect(() => yazidanTutar('bin lira beş kuruş on kuruş')).toThrow(TypeError);
     expect(() => yazidanTutar('bin lira yüz elli kuruş')).toThrow(RangeError);
+  });
+});
+
+describe('sessizce yanlış sayı dönmüyor', () => {
+  it('rakam ve yazı karışık metni reddediyor', () => {
+    expect(() => yazidanTutar('5 Milyon Lira')).toThrow(/Rakam var/);
+    expect(() => yazidanTutar('1.250 Lira')).toThrow(/Rakam var/);
+    expect(() => yazidanSayiya('10')).toThrow(/Rakam var/);
+  });
+
+  it('eksi işaretini okuyor', () => {
+    expect(yazidanTutar('-bin lira')).toBe(-1000);
+    expect(yazidanSayiya('− kırk')).toBe(-40);
+  });
+
+  it('sayısız tutarı reddediyor', () => {
+    expect(() => yazidanTutar('Türk Lirası')).toThrow(TypeError);
+    expect(() => yazidanTutar('Kuruş')).toThrow(TypeError);
+  });
+
+  it('para birimleri karışmıyor', () => {
+    expect(() => yazidanTutar('Bin Dolar Elli Kuruş')).toThrow(/iki farklı para/);
+    expect(() => yazidanTutar('Bin Lira Türk')).toThrow(TypeError);
+    expect(yazidanTutar('Bin Avro Elli Sent')).toBe(1000.5);
+  });
+
+  it('bir bin, bir yüz ve tek başına milyon hata veriyor', () => {
+    expect(() => yazidanSayiya('bir bin')).toThrow(/"bin" olmalı/);
+    expect(() => yazidanSayiya('bir yüz')).toThrow(/"yüz" olmalı/);
+    expect(() => yazidanSayiya('milyon bin')).toThrow(/önünde sayı yok/);
+    expect(yazidanSayiya('yüz bir bin')).toBe(101000);
+    expect(yazidanSayiya('bir milyon bir yüz', { esnek: true })).toBe(1000100);
+  });
+});
+
+describe('başka yazımlar', () => {
+  it("TL'dir, Euro'dur", () => {
+    expect(yazidanTutar("Yalnız Bin TL'dir")).toBe(1000);
+    expect(yazidanTutar("Bin Euro'dur")).toBe(1000);
+  });
+
+  it('Türkçe karaktersiz', () => {
+    expect(yazidanSayiya('iki yuz elli')).toBe(250);
+    expect(yazidanSayiya('IKI YUZ')).toBe(200);
+    expect(yazidanTutar('bin turk lirasi elli kurus')).toBe(1000.5);
   });
 });
 

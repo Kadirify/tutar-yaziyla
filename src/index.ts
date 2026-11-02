@@ -3,6 +3,7 @@ export type { YaziSecenekleri } from './yaziyla';
 export { tutarAyir, tutarYaziyla } from './tutar';
 export type { TutarParcalari, TutarSecenekleri } from './tutar';
 export { yazidanBigInt, yazidanSayiya, yazidanTutar } from './coz';
+export type { CozSecenekleri, TutarCozSecenekleri } from './coz';
 export { siraSayisi } from './sira';
 export { PARALAR } from './paralar';
 export type { ParaBirimi, ParaKodu } from './paralar';
