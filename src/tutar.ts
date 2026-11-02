@@ -1,7 +1,7 @@
 import { ayir, type GirdiSecenekleri, type SayiGirdisi } from './girdi';
 import { tamSayiKelimeleri } from './kelimeler';
 import { paraBul, type ParaBirimi, type ParaKodu } from './paralar';
-import { birlestir, dirEki, type YazimSecenekleri } from './yazim';
+import { birlestir, dirEki, kucukHarf, type YazimSecenekleri } from './yazim';
 
 export interface TutarSecenekleri extends GirdiSecenekleri, YazimSecenekleri {
   /** 'TRY' (varsayılan), 'USD', 'EUR', 'GBP', 'CHF', 'JPY' ya da kendi tanımınız. */
@@ -78,8 +78,12 @@ export function tutarKelimeleri(tutar: SayiGirdisi, s: TutarSecenekleri = {}): s
 export function tutarYaziyla(tutar: SayiGirdisi, secenekler: TutarSecenekleri = {}): string {
   const k = tutarKelimeleri(tutar, secenekler);
   if (secenekler.yalniz) {
+    if (k[0] === 'eksi') throw new RangeError('"Yalnız" kalıbı eksi tutarla kullanılmaz.');
     k.unshift('yalnız');
     k[k.length - 1] = dirEki(k[k.length - 1]!);
   }
-  return birlestir(k, secenekler, 'baslik');
+  // "Türk lirası", "İngiliz sterlini": cümle düzeninde ilk kelime özel ad
+  const anaAdi = paraBul(secenekler.para).ana.split(' ');
+  const ozel = new Set(anaAdi.length > 1 ? [kucukHarf(anaAdi[0]!)] : []);
+  return birlestir(k, secenekler, 'baslik', ozel);
 }

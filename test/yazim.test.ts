@@ -17,6 +17,11 @@ describe('harf düzeni', () => {
     expect(yaziyla(1250, { harf: 'cumle' })).toBe('Bin iki yüz elli');
   });
 
+  it('cümle düzeninde özel adlar büyük kalıyor', () => {
+    expect(tutarYaziyla(1250.75, { harf: 'cumle' })).toBe('Bin iki yüz elli Türk lirası yetmiş beş kuruş');
+    expect(tutarYaziyla(5, { harf: 'cumle', para: 'GBP' })).toBe('Beş İngiliz sterlini');
+  });
+
   it('kısaltmalar büyük kalıyor', () => {
     expect(tutarYaziyla(1, { para: 'USD', harf: 'kucuk' })).toBe('bir ABD doları');
   });
@@ -39,7 +44,19 @@ describe('Yalnız ... -dır', () => {
     expect(tutarYaziyla(1000, { yalniz: true })).toBe('Yalnız Bin Türk Lirasıdır');
   });
 
+  it('kısaltmaya kesme işaretiyle', () => {
+    const p = { ana: 'TL', alt: 'Kr', hane: 2 };
+    expect(tutarYaziyla(5, { para: p, yalniz: true })).toBe("Yalnız Beş TL'dir");
+    expect(tutarYaziyla(5.5, { para: p, yalniz: true })).toBe("Yalnız Beş TL Elli Kr'dir");
+  });
+
+  it('eksi tutarla kullanılmıyor', () => {
+    expect(() => tutarYaziyla(-5, { yalniz: true })).toThrow(RangeError);
+  });
+
   it.each([
+    ['TL', "TL'dir"],
+    ['ABD', "ABD'dir"],
     ['Kuruş', 'Kuruştur'],
     ['Lirası', 'Lirasıdır'],
     ['Avro', 'Avrodur'],
