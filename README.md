@@ -1,5 +1,6 @@
 # tutar-yaziyla
 
+[![npm](https://img.shields.io/npm/v/tutar-yaziyla)](https://www.npmjs.com/package/tutar-yaziyla)
 [![CI](https://github.com/Kadirify/tutar-yaziyla/actions/workflows/ci.yml/badge.svg)](https://github.com/Kadirify/tutar-yaziyla/actions/workflows/ci.yml)
 
 Sayıları ve para tutarlarını Türkçe yazıya çevirir. Fatura, makbuz, dekont, çek ve senet için.
