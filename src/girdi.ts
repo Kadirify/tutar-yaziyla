@@ -46,10 +46,10 @@ function sayidan(n: number): string {
 }
 
 function binlikKontrol(parcalar: string[], ham: string): void {
-  // İlk grup 1-3, sonrakiler tam 3 rakam olmalı: "1.250.000" doğru, "12.50" yanlış
+  // İlk grup 1-3 rakam ve sıfırla başlamaz, sonrakiler tam 3 rakam: "1.250.000" doğru, "12.50" yanlış
   if (parcalar.length < 2) return;
   const [ilk, ...diger] = parcalar;
-  if (!/^\d{1,3}$/.test(ilk!) || !diger.every((p) => /^\d{3}$/.test(p))) {
+  if (!/^[1-9]\d{0,2}$/.test(ilk!) || !diger.every((p) => /^\d{3}$/.test(p))) {
     throw new RangeError(`Binlik ayırıcılar yanlış yerde: "${ham}"`);
   }
 }
@@ -76,7 +76,7 @@ function metinden(ham: string, s: GirdiSecenekleri): { eksi: boolean; duz: strin
   if (!ondalik) {
     if (virgul && nokta) ondalik = m.lastIndexOf(',') > m.lastIndexOf('.') ? ',' : '.';
     else if (virgul) ondalik = (m.match(/,/g)?.length ?? 0) > 1 ? '.' : ',';
-    else if (nokta) ondalik = (m.match(/\./g)?.length ?? 0) > 1 || /^\d{1,3}\.\d{3}$/.test(m) ? ',' : '.';
+    else if (nokta) ondalik = (m.match(/\./g)?.length ?? 0) > 1 || /^[1-9]\d{0,2}\.\d{3}$/.test(m) ? ',' : '.';
     else ondalik = ',';
   }
   const binlik = ondalik === ',' ? '.' : ',';

@@ -66,6 +66,12 @@ describe('metin girdisi', () => {
     expect(tam('1.250', '.')).toBe('1.250');
   });
 
+  it('sıfırla başlayan "0.250" binlik sayılmıyor', () => {
+    expect(tam('0.250')).toBe('0.250');
+    expect(tam('000.500')).toBe('0.500');
+    expect(() => ayir('0.250.000')).toThrow(/Binlik/);
+  });
+
   it('para işaretleri ve boşluklar', () => {
     expect(tam('₺1.250,75')).toBe('1250.75');
     expect(tam('1.250,75 TL')).toBe('1250.75');
