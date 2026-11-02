@@ -21,6 +21,9 @@
       }
     }
   },
+  "bin": {
+    "tutar-yaziyla": "dist/bin.js"
+  },
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
