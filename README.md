@@ -1,6 +1,7 @@
 # tutar-yaziyla
 
 [![npm](https://img.shields.io/npm/v/tutar-yaziyla)](https://www.npmjs.com/package/tutar-yaziyla)
+[![indirme](https://img.shields.io/npm/dm/tutar-yaziyla)](https://www.npmjs.com/package/tutar-yaziyla)
 [![CI](https://github.com/Kadirify/tutar-yaziyla/actions/workflows/ci.yml/badge.svg)](https://github.com/Kadirify/tutar-yaziyla/actions/workflows/ci.yml)
 
 Sayıları ve para tutarlarını Türkçe yazıya çevirir. Fatura, makbuz, dekont, çek ve senet için.
@@ -13,11 +14,23 @@ tutarYaziyla(1250.75);
 // 'Bin İki Yüz Elli Türk Lirası Yetmiş Beş Kuruş'
 ```
 
+## Kurulum
+
 ```
 npm install tutar-yaziyla
 ```
 
-Bağımlılığı yok. Node 20 ve üstü, ESM ve CommonJS.
+npm sayfası: [npmjs.com/package/tutar-yaziyla](https://www.npmjs.com/package/tutar-yaziyla).
+Bağımlılığı yok. Node 20 ve üstü, ESM ve CommonJS ikisi de çalışıyor.
+
+Kurmadan, tarayıcıda doğrudan:
+
+```html
+<script type="module">
+  import { tutarYaziyla } from 'https://cdn.jsdelivr.net/npm/tutar-yaziyla@1/+esm';
+  document.body.textContent = tutarYaziyla(1250.75);
+</script>
+```
 
 ## Tutar
 
