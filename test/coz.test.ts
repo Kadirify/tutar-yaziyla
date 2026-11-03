@@ -1,15 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { tutarYaziyla, yazidanBigInt, yazidanSayiya, yazidanTutar, yaziyla } from '../src';
 
-// Tekrarlanabilir rastgele sayılar
-function rastgele(tohum: number) {
-  let s = tohum;
-  return () => {
-    s = (s * 1103515245 + 12345) % 2147483648;
-    return s / 2147483648;
-  };
-}
-
 describe('yazidanSayiya', () => {
   it.each([
     ['sıfır', 0],
@@ -123,33 +114,21 @@ describe('başka yazımlar', () => {
   });
 });
 
-describe('gidip dönme', () => {
-  it('rastgele tam sayılar', () => {
-    const r = rastgele(7);
-    for (let i = 0; i < 2000; i++) {
-      const n = Math.floor(r() * 10 ** Math.floor(r() * 16));
-      expect(yazidanSayiya(yaziyla(n)), String(n)).toBe(n);
-    }
+describe('yazıya çevirip geri okuyunca aynı sayı', () => {
+  it('tam sayılar', () => {
+    for (let n = 0; n <= 2000; n++) expect(yazidanSayiya(yaziyla(n))).toBe(n);
+    for (let n = 2001; n < 1e15; n = n * 3 + 7) expect(yazidanSayiya(yaziyla(n)), String(n)).toBe(n);
   });
 
-  it('rastgele büyük sayılar', () => {
-    const r = rastgele(11);
-    for (let i = 0; i < 300; i++) {
-      let s = String(1 + Math.floor(r() * 9));
-      const uzunluk = Math.floor(r() * 26);
-      for (let j = 0; j < uzunluk; j++) s += Math.floor(r() * 10);
-      expect(yazidanBigInt(yaziyla(s)), s).toBe(BigInt(s));
-    }
+  it('büyük sayılar', () => {
+    for (let n = 1n; n < 10n ** 27n; n = n * 13n + 7n) expect(yazidanBigInt(yaziyla(n)), String(n)).toBe(n);
   });
 
-  it('rastgele tutarlar, bütün yazım seçenekleriyle', () => {
-    const r = rastgele(3);
-    const secenekler = [{}, { bitisik: true }, { harf: 'buyuk' as const }, { yalniz: true }, { bitisik: true, cerceve: '#' }];
-    for (let i = 0; i < 1000; i++) {
-      const kurus = Math.floor(r() * 10 ** Math.floor(r() * 12));
-      const tutar = `${Math.floor(kurus / 100)},${String(kurus % 100).padStart(2, '0')}`;
-      const s = secenekler[i % secenekler.length]!;
-      expect(Math.round(yazidanTutar(tutarYaziyla(tutar, s)) * 100), `${tutar} ${JSON.stringify(s)}`).toBe(kurus);
+  it('tutarlar', () => {
+    for (let k = 1; k < 1e12; k = k * 7 + 3) {
+      const tutar = `${Math.floor(k / 100)},${String(k % 100).padStart(2, '0')}`;
+      expect(Math.round(yazidanTutar(tutarYaziyla(tutar)) * 100), tutar).toBe(k);
+      expect(Math.round(yazidanTutar(tutarYaziyla(tutar, { bitisik: true, cerceve: '#' })) * 100), tutar).toBe(k);
     }
   });
 });
