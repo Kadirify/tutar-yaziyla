@@ -45,5 +45,6 @@ describe('siraSayisi', () => {
     expect(() => siraSayisi(-1)).toThrow(RangeError);
     expect(() => siraSayisi(1.5)).toThrow(RangeError);
     expect(siraSayisi('3,00')).toBe('üçüncü');
+    expect(siraSayisi(-0)).toBe('sıfırıncı');
   });
 });

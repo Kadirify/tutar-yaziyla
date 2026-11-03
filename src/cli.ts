@@ -43,8 +43,11 @@ export function calistir(argv: readonly string[]): CliSonucu {
   let para: string | undefined;
   const konumsal: string[] = [];
 
-  for (const a of argv) {
-    const [ad, deger] = a.startsWith('--') ? (a.split('=', 2) as [string, string?]) : [a, undefined];
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i]!;
+    let [ad, deger] = a.startsWith('--') ? (a.split('=', 2) as [string, string?]) : [a, undefined];
+    // --para USD de --para=USD gibi çalışsın
+    if (ad === '--para' && deger === undefined) deger = argv[++i];
     switch (ad) {
       case '-h':
       case '--help':

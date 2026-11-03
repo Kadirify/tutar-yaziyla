@@ -17,22 +17,20 @@ export const PARALAR = {
   JPY: { ana: 'Japon Yeni', alt: '', hane: 0 },
 } as const satisfies Record<string, ParaBirimi>;
 
-export type ParaKodu = keyof typeof PARALAR;
+export type ParaKodu = keyof typeof PARALAR | 'TL';
 
 export function paraBul(para: ParaKodu | Lowercase<ParaKodu> | ParaBirimi | undefined): ParaBirimi {
   if (para === undefined) return PARALAR.TRY;
   if (typeof para === 'string') {
-    const p = (PARALAR as Record<string, ParaBirimi>)[para.toUpperCase()];
-    if (!p) {
-      throw new RangeError(
-        `Bilinmeyen para birimi: ${para}. Desteklenenler: ${Object.keys(PARALAR).join(', ')}. ` +
-          "Başka bir para için { ana: 'Kanada Doları', alt: 'Sent', hane: 2 } verin.",
-      );
-    }
+    const kod = para.toUpperCase() === 'TL' ? 'TRY' : para.toUpperCase();
+    const p = (PARALAR as Record<string, ParaBirimi>)[kod];
+    if (!p) throw new RangeError(`Bilinmeyen para birimi: ${para} (${Object.keys(PARALAR).join(', ')})`);
     return p;
   }
   if (!Number.isInteger(para.hane) || para.hane < 0 || para.hane > 6) {
     throw new RangeError(`hane 0-6 arasında tam sayı olmalı, gelen: ${para.hane}`);
   }
+  // alt birimi olmayan parada kesir sessizce kaybolmasın
+  if (!para.alt && para.hane > 0) throw new RangeError(`"${para.ana}" için alt birim adı yok, hane 0 olmalı`);
   return para;
 }

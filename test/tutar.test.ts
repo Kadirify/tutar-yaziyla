@@ -35,7 +35,11 @@ describe('tutarYaziyla', () => {
     expect(tutarYaziyla(2.5, { para: 'gbp' })).toBe('İki İngiliz Sterlini Elli Peni');
     expect(tutarYaziyla(1500.4, { para: 'JPY' })).toBe('Bin Beş Yüz Japon Yeni');
     expect(tutarYaziyla(5, { para: { ana: 'Kanada Doları', alt: 'Sent', hane: 2 } })).toBe('Beş Kanada Doları');
-    expect(() => tutarYaziyla(5, { para: 'XYZ' as 'USD' })).toThrow(/Desteklenenler/);
+    expect(() => tutarYaziyla(5, { para: 'XYZ' as 'USD' })).toThrow(/Bilinmeyen para/);
+    expect(tutarYaziyla(5, { para: 'TL' })).toBe('Beş Türk Lirası');
+    expect(tutarYaziyla(5, { para: 'tl' })).toBe('Beş Türk Lirası');
+    expect(() => tutarYaziyla(12.5, { para: { ana: 'Puan', alt: '', hane: 2 } })).toThrow(/hane 0 olmalı/);
+    expect(tutarYaziyla(12.5, { para: { ana: 'Puan', alt: '', hane: 0 } })).toBe('On Üç Puan');
   });
 
   it('büyük tutar', () => {

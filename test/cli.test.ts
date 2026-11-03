@@ -9,6 +9,7 @@ describe('cli', () => {
     expect(c('₺1.250,75')).toBe('Bin İki Yüz Elli Türk Lirası Yetmiş Beş Kuruş');
     expect(c('1250.75', '--bitisik', '--cerceve=#')).toBe('#BinİkiYüzElliTürkLirasıYetmişBeşKuruş#');
     expect(c('99,9', '--para=USD')).toBe('Doksan Dokuz ABD Doları Doksan Sent');
+    expect(c('99,9', '--para', 'USD')).toBe('Doksan Dokuz ABD Doları Doksan Sent');
     expect(c('1000', '--yalniz')).toBe('Yalnız Bin Türk Lirasıdır');
   });
 

@@ -20,7 +20,7 @@ export function siraEki(kelime: string): string {
  */
 export function siraSayisi(sayi: SayiGirdisi, secenekler: YazimSecenekleri = {}): string {
   const { eksi, tam, kesir } = ayir(sayi);
-  if (eksi || /[1-9]/.test(kesir)) {
+  if ((eksi && tam > 0n) || /[1-9]/.test(kesir)) {
     throw new RangeError(`Sıra sayısı için negatif olmayan tam sayı gerekiyor, gelen: ${String(sayi)}`);
   }
   const k = tamSayiKelimeleri(tam);
