@@ -1,8 +1,7 @@
 /**
  * Girdiyi işaret, tam kısım ve ondalık rakamlar olarak ayırır.
  *
- * Kayan nokta hatası olmasın diye hiçbir yerde sayı aritmetiği yapmıyoruz;
- * tam kısım bigint, ondalık kısım rakam dizisi olarak taşınıyor.
+ * Tam kısım bigint, ondalık kısım rakam dizisi; kayan nokta hiç kullanılmıyor.
  */
 
 export type SayiGirdisi = number | bigint | string;

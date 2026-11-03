@@ -48,7 +48,7 @@ tutarYaziyla(1250.75, { harf: 'buyuk', bitisik: true, cerceve: '***' });
 
 | Seçenek | Değerler | Varsayılan |
 |---|---|---|
-| `para` | `'TRY'`, `'USD'`, `'EUR'`, `'GBP'`, `'CHF'`, `'JPY'` ya da `{ ana, alt, hane }` | `'TRY'` |
+| `para` | `'TRY'` (ya da `'TL'`), `'USD'`, `'EUR'`, `'GBP'`, `'CHF'`, `'JPY'` ya da `{ ana, alt, hane }` | `'TRY'` |
 | `harf` | `'baslik'`, `'kucuk'`, `'buyuk'`, `'cumle'` | `'baslik'` |
 | `bitisik` | boşluksuz yaz | `false` |
 | `cerceve` | başa ve sona konacak işaret | yok |
@@ -92,8 +92,10 @@ yazidanTutar('Yalnız Bin Türk Lirasıdır');                // 1000
 yazidanSayiya('yüz bir bin');                             // 101000
 ```
 
-Boşluklu, bitişik, büyük harfli ve çerçeveli yazıları okuyor. "on on" ya da "bin milyon" gibi
-kurala uymayan yazıda hata veriyor, sessizce yanlış sayı dönmüyor.
+Boşluklu, bitişik, büyük harfli, çerçeveli ve Türkçe karaktersiz ("iki yuz elli") yazıları,
+"TL'dir" gibi ekleri okuyor. Rakam karışmış yazıda ("5 milyon lira"), "on on" ya da "bir bin"
+gibi doğru yazılmış bir çekte olmayacak şeylerde ve iki farklı para birimi geçince hata veriyor.
+"bir bin" gibi yazımları kabul etmesi için `{ esnek: true }`.
 
 ## Girdi
 
@@ -101,10 +103,8 @@ Sayı, bigint ya da metin verebilirsiniz. Metinde `1.250,75`, `1,250.75`, `1250,
 ve `1.250,75 TL` okunuyor. Tek nokta ve ardından tam üç rakam varsa (`'1.250'`) Türkçedeki gibi
 binlik sayılıyor, yani 1250. Veri İngilizce biçimde geliyorsa `{ ondalik: '.' }` verin.
 
-JavaScript sayıları 2^53'ten (yaklaşık 9 katrilyon) büyük tam sayıları kesin saklayamıyor,
-`12345678901234567` sessizce `12345678901234568` oluyor. Böyle bir sayı gelirse hata veriyor.
-Büyük sayıları metin ya da bigint olarak verin: `yaziyla(12345678901234567n)`. Septilyona kadar
-(27 basamak) gidiyor.
+9 katrilyonun üstündeki tam sayılar JavaScript sayısında bozulduğu için hata veriyor; onları
+metin ya da bigint olarak verin. Septilyona kadar (27 basamak) gidiyor.
 
 ## Kuruş yuvarlama
 
@@ -115,12 +115,12 @@ etmek istemiyorsanız `{ fazlaHane: 'hata' }`.
 Yuvarlanmış parçaları ayrı almak için `tutarAyir(1250.755)`, sonuç
 `{ eksi: false, ana: 1250n, alt: 76 }`. `ana` bigint, JSON'a yazacaksanız önce `String()` ile çevirin.
 
-## Yazım kuralları
+## Yazım
 
-- "Bir yüz" ve "bir bin" denmez, "yüz" ve "bin" denir. Ama "bir milyon", "yüz bir bin".
-- Türkçede i ve ı ayrı harf; büyük harfe çevirince `İKİ` olmalı, `IKI` değil.
-- ABD gibi kısaltmalar küçük harf düzeninde de büyük kalıyor.
-- Ek fiil ünlü uyumuna göre çekiliyor: Kuruştur, Lirasıdır, Avrodur, Senttir.
+"Bir yüz", "bir bin" yazılmıyor ama "bir milyon", "yüz bir bin" yazılıyor. Büyük harfte `İKİ`
+çıkıyor, `IKI` değil. Cümle düzeninde "Türk lirası", "İngiliz sterlini" gibi özel adlar büyük
+kalıyor, ABD ve TL gibi kısaltmalar hiç değişmiyor. "Yalnız" kalıbındaki ek ünlü uyumuna göre
+geliyor: Kuruştur, Lirasıdır, Avrodur, TL'dir. Eksi tutarla "Yalnız" kullanılamıyor.
 
 ## Komut satırı
 

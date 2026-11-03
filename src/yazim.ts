@@ -1,7 +1,4 @@
-/**
- * Harf düzeni ve birleştirme. Türkçede i/İ ve ı/I ayrı harfler olduğu için
- * toUpperCase() tek başına yetmiyor: 'iki'.toUpperCase() -> 'IKI' oluyor.
- */
+// toUpperCase() i/ı ayrımını bilmiyor, 'iki' -> 'IKI' oluyor
 
 export type Harf = 'baslik' | 'kucuk' | 'buyuk' | 'cumle';
 

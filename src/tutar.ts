@@ -40,8 +40,7 @@ export function tutarAyir(tutar: SayiGirdisi, s: TutarSecenekleri = {}): TutarPa
     if (s.fazlaHane === 'hata') {
       throw new RangeError(`Tutarda ${hane} haneden fazla ondalık var: ${String(tutar)}`);
     }
-    // Yarım ve üstü yukarı. Metin üzerinden yapıyoruz, 1.005 gibi sayılar
-    // kayan noktada 1.00499... olduğu için Math.round yanlış sonuç veriyor.
+    // yarım ve üstü yukarı; Math.round 1.005'i 1.00 yapıyor
     if (Number(artan[0]) >= 5) deger += 1n;
   }
 

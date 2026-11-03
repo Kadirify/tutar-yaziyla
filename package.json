@@ -6,15 +6,12 @@
     "sayı yazıyla",
     "tutar yazıyla",
     "yazıyla",
-    "rakamı yazıya çevir",
     "fatura",
     "çek",
     "senet",
-    "türkçe",
-    "turkish",
+    "türk lirası",
     "number to words",
-    "amount in words",
-    "türk lirası"
+    "turkish"
   ],
   "homepage": "https://github.com/Kadirify/tutar-yaziyla#readme",
   "bugs": {
