@@ -78,7 +78,7 @@ describe('yazidanTutar', () => {
   });
 });
 
-describe('sessizce yanlış sayı dönmüyor', () => {
+describe('yanlış okumak yerine hata veriyor', () => {
   it('rakam ve yazı karışık metni reddediyor', () => {
     expect(() => yazidanTutar('5 Milyon Lira')).toThrow(/Rakam var/);
     expect(() => yazidanTutar('1.250 Lira')).toThrow(/Rakam var/);

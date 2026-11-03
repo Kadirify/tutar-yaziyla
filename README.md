@@ -108,9 +108,8 @@ metin ya da bigint olarak verin. Septilyona kadar (27 basamak) gidiyor.
 
 ## Kuruş yuvarlama
 
-Kuruştan fazla hane gelirse yarım ve üstü yukarı yuvarlanıyor. Yuvarlama metin üzerinden yapılıyor;
-kayan noktada `(1.005).toFixed(2)` sonucu `'1.00'` çıkıyor, burada `1,01`. Fazla haneyi kabul
-etmek istemiyorsanız `{ fazlaHane: 'hata' }`.
+Kuruştan fazla hane gelirse yarım ve üstü yukarı yuvarlanıyor. Yuvarlama kayan noktayla değil,
+rakamlar üzerinden yapılıyor. Fazla haneyi kabul etmek istemiyorsanız `{ fazlaHane: 'hata' }`.
 
 Yuvarlanmış parçaları ayrı almak için `tutarAyir(1250.755)`, sonuç
 `{ eksi: false, ana: 1250n, alt: 76 }`. `ana` bigint, JSON'a yazacaksanız önce `String()` ile çevirin.

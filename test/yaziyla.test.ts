@@ -30,7 +30,7 @@ describe('yaziyla', () => {
   });
 
   it('hassasiyeti kaybolmuş sayıyı reddediyor', () => {
-    expect(() => yaziyla(12345678901234567)).toThrow(/metin .* ya da bigint/);
+    expect(() => yaziyla(12345678901234567)).toThrow(/metin ya da bigint/);
   });
 
   it('üslü gösterimi açıyor', () => {
@@ -76,7 +76,7 @@ describe('metin girdisi', () => {
     expect(tam('₺1.250,75')).toBe('1250.75');
     expect(tam('1.250,75 TL')).toBe('1250.75');
     expect(tam('1 250,75')).toBe('1250.75');
-    expect(tam('1 250,75')).toBe('1250.75');
+    expect(tam('1\u00a0250,75')).toBe('1250.75'); // bölünmez boşluk
     expect(tam('-1.250,75')).toBe('-1250.75');
     expect(tam('−5')).toBe('-5');
   });

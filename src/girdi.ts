@@ -36,10 +36,7 @@ function ussuAc(metin: string): string {
 function sayidan(n: number): string {
   if (!Number.isFinite(n)) throw new RangeError(`Sonlu bir sayı değil: ${n}`);
   if (Number.isInteger(n) && !Number.isSafeInteger(n)) {
-    throw new RangeError(
-      `${n} JavaScript sayısı olarak tam saklanamıyor, son basamakları bozulmuş olabilir. ` +
-        'Büyük sayıları metin ("12345678901234567") ya da bigint (12345678901234567n) olarak verin.',
-    );
+    throw new RangeError(`${n} tam saklanamayacak kadar büyük, metin ya da bigint olarak verin`);
   }
   return ussuAc(String(n));
 }

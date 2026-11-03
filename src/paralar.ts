@@ -30,7 +30,7 @@ export function paraBul(para: ParaKodu | Lowercase<ParaKodu> | ParaBirimi | unde
   if (!Number.isInteger(para.hane) || para.hane < 0 || para.hane > 6) {
     throw new RangeError(`hane 0-6 arasında tam sayı olmalı, gelen: ${para.hane}`);
   }
-  // alt birimi olmayan parada kesir sessizce kaybolmasın
+  // alt birimi yoksa kesir kaybolur
   if (!para.alt && para.hane > 0) throw new RangeError(`"${para.ana}" için alt birim adı yok, hane 0 olmalı`);
   return para;
 }

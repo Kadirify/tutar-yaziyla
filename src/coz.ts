@@ -81,7 +81,7 @@ const KELIMELER = [...SOZLUK.keys()].sort((a, b) => b.length - a.length);
 
 function temizle(metin: string): { eksi: boolean; govde: string } {
   if (/\d/.test(metin)) {
-    throw new TypeError(`Rakam var: "${metin}". Bu fonksiyon yazıyla yazılmış sayıyı okur.`);
+    throw new TypeError(`Rakam var: "${metin}"`);
   }
   // TL'dir, Euro'dur
   let m = metin.replace(/['’][dt][ıiuü]r\b/gi, '');
