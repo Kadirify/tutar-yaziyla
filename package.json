@@ -1,6 +1,6 @@
 {
   "name": "tutar-yaziyla",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Sayıları ve para tutarlarını Türkçe yazıya çevirir: fatura, makbuz, çek ve senet için.",
   "keywords": [
     "sayı yazıyla",

@@ -1,5 +1,9 @@
 # Değişiklikler
 
+## 1.0.2
+
+- README: npm sayfası ve tarayıcıda kurulumsuz kullanım.
+
 ## 1.0.1
 
 - Yazıdan okurken rakamlar ve eksi işareti atlanıyordu. Rakam varsa artık hata veriyor, eksi okunuyor.
